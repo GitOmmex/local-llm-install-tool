@@ -34,7 +34,7 @@ for /f "usebackq tokens=1* delims=:" %%A in ("%dxfile%") do (
 
 REM --- Get System RAM in MB ---
 for /f "skip=1 tokens=2 delims=," %%A in ('wmic computersystem get TotalPhysicalMemory /format:csv') do set "sysRAMB=%%A"
-set /a sysRAMMB=%sysRAMB%/1048576
+for /f "delims=" %%A in ('powershell -Command "(Get-CimInstance Win32_ComputerSystem).TotalPhysicalMemory / 1MB"') do set "sysRAMMB=%%A"
 
 REM --- Find GPU with Most VRAM ---
 set "maxVRAM=0"
