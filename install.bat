@@ -32,7 +32,6 @@ for /f "usebackq tokens=1* delims=:" %%A in ("%dxfile%") do (
     )
 )
 
-del "%dxfile%" >nul 2>&1
 REM --- Get System RAM in MB ---
 for /f "skip=1 tokens=2 delims=," %%A in ('wmic computersystem get TotalPhysicalMemory /format:csv') do set "sysRAMB=%%A"
 set /a sysRAMMB=%sysRAMB:~0,-6%
