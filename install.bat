@@ -1,8 +1,8 @@
 @echo off
 setlocal enabledelayedexpansion
-echo ===========================================
-echo   GPU and VRAM Information
-echo ===========================================
+echo =======================================================
+echo   Fetching GPU and VRAM Information. Please wait...
+echo =======================================================
 
 set "dxfile=%TEMP%\dxdiag_gpu.txt"
 dxdiag /t "%dxfile%" >nul 2>&1
