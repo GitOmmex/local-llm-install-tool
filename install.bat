@@ -127,4 +127,41 @@ echo Extracting WebUI...
 powershell -Command "Expand-Archive -Path 'main.zip' -DestinationPath '.' -Force"
 del main.zip
 cd text-generation-webui-main
+echo Setting up Python environment...
+python -m venv venv
+call venv\Scripts\activate.bat
+pip install --upgrade pip
+pip install -r requirements/portable/requirements.txt --upgrade
+
+echo Downloading selected LLM: %selectedLLM%
+if "%selectedLLM%"=="Qwen3 4B Instruct 2507" (
+    set "MODEL_URL=https://huggingface.co/unsloth/Qwen3-4B-Instruct-2507-GGUF/resolve/main/Qwen3-4B-Instruct-2507-UD-Q8_K_XL.gguf?download=true"
+    set "MODEL_NAME=Qwen3-4B-Instruct-2507-UD-Q8_K_XL.gguf"
+) else if "%selectedLLM%"=="GPT Oss 20B" (
+    set "MODEL_URL=https://huggingface.co/unsloth/gpt-oss-20b-GGUF/resolve/main/gpt-oss-20b-UD-Q4_K_XL.gguf?download=true"
+    set "MODEL_NAME=gpt-oss-20b-UD-Q4_K_XL.gguf"
+) else if "%selectedLLM%"=="GPT Oss 120B" (
+    set "MODEL_URL1=https://huggingface.co/unsloth/gpt-oss-120b-GGUF/resolve/main/UD-Q4_K_XL/gpt-oss-120b-UD-Q4_K_XL-00001-of-00002.gguf?download=true"
+    set "MODEL_URL2=https://huggingface.co/unsloth/gpt-oss-120b-GGUF/resolve/main/UD-Q4_K_XL/gpt-oss-120b-UD-Q4_K_XL-00002-of-00002.gguf?download=true"
+    set "MODEL_NAME1=gpt-oss-120b-UD-Q4_K_XL-00001-of-00002.gguf"
+    set "MODEL_NAME2=gpt-oss-120b-UD-Q4_K_XL-00002-of-00002.gguf"
+) else (
+    echo Invalid LLM selection. Exiting.
+    goto end
+)
+
+echo Downloading model files...
+if defined MODEL_URL (
+    powershell -Command "Invoke-WebRequest -Uri '%MODEL_URL%' -OutFile 'user_data\models\%MODEL_NAME%'"
+)
+if defined MODEL_URL1 (
+    powershell -Command "Invoke-WebRequest -Uri '%MODEL_URL1%' -OutFile 'user_data\models\%MODEL_NAME1%'"
+)
+if defined MODEL_URL2 (
+    powershell -Command "Invoke-WebRequest -Uri '%MODEL_URL2%' -OutFile 'user_data\models\%MODEL_NAME2%'"
+)
+
+echo Installation complete. You can now run the WebUI using run.bat.
 pause
+:end
+endlocal
