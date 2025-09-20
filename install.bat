@@ -74,4 +74,17 @@ echo.
 echo Combined memory for LLM: %combinedMem% MB
 
 echo =======================================================
+
+REM --- Recommend LLM based on combined memory ---
+set /a combinedGB=combinedMem/1024
+if %combinedGB% lss 12 (
+    set "llm=Qwen3 4B Instruct 2507"
+) else (
+    if %combinedGB% leq 64 (
+        set "llm=GPT Oss 20B"
+    ) else (
+        set "llm=GPT Oss 120B"
+    )
+)
+echo Recommended LLM: %llm%
 pause
