@@ -97,4 +97,11 @@ if errorlevel 1 (
 ) else (
     echo Python is installed.
 )
+
+set "WEBUI_URL=https://github.com/oobabooga/text-generation-webui/archive/refs/heads/main.zip"
+echo Downloading Text Generation WebUI...
+powershell -Command "Invoke-WebRequest -Uri '%WEBUI_URL%' -OutFile 'main.zip'"
+echo Extracting WebUI...
+powershell -Command "Expand-Archive -Path 'main.zip' -DestinationPath '.' -Force"
+del main.zip
 pause
