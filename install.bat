@@ -105,16 +105,6 @@ if /i "%userChoice%"=="N" (
 )
 echo You selected: %selectedLLM%
 
-echo Checking for Python installation...
-
-where python >nul 2>&1
-if errorlevel 1 (
-    echo Python is not installed. Please install Python from https://www.python.org/downloads/ and ensure it is added to your PATH.
-    goto end
-) else (
-    echo Python is installed.
-)
-
 echo Continue with installation? (Y/N): 
 set /p contChoice=
 if /i "%contChoice%" neq "Y" (
@@ -129,11 +119,6 @@ echo Extracting WebUI...
 powershell -Command "Expand-Archive -Path '.\main.zip' -DestinationPath '.' -Force"
 del .\main.zip
 cd text-generation-webui-main
-echo Setting up Python environment...
-python -m venv venv
-call venv\Scripts\activate.bat
-pip install --upgrade pip
-pip install -r requirements/portable/requirements.txt --upgrade
 
 echo Downloading selected LLM: %selectedLLM%
 if "%selectedLLM%"=="Phi 2" (
@@ -165,6 +150,9 @@ if defined MODEL_URL1 (
 if defined MODEL_URL2 (
     powershell -Command "Invoke-WebRequest -Uri '%MODEL_URL2%' -OutFile '.\user_data\models\%MODEL_NAME2%'"
 )
+
+echo Initializing WebUI...
+call start_windows.bat
 
 echo Installation complete. You can now run the WebUI using start_windows.bat in the text-generation-webui-main directory.
 pause
