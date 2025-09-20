@@ -161,7 +161,7 @@ if defined MODEL_URL2 (
     powershell -Command "Invoke-WebRequest -Uri '%MODEL_URL2%' -OutFile 'user_data\models\%MODEL_NAME2%'"
 )
 
-echo Installation complete. You can now run the WebUI using run.bat.
+echo Installation complete. You can now run the WebUI using start_windows.bat in the text-generation-webui-main directory.
 pause
 :end
 endlocal
