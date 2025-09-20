@@ -124,10 +124,10 @@ if /i "%contChoice%" neq "Y" (
 
 set "WEBUI_URL=https://github.com/oobabooga/text-generation-webui/archive/refs/heads/main.zip"
 echo Downloading Text Generation WebUI...
-powershell -Command "Invoke-WebRequest -Uri '%WEBUI_URL%' -OutFile 'main.zip'"
+powershell -Command "Invoke-WebRequest -Uri '%WEBUI_URL%' -OutFile '.\main.zip'"
 echo Extracting WebUI...
-powershell -Command "Expand-Archive -Path 'main.zip' -DestinationPath '.' -Force"
-del main.zip
+powershell -Command "Expand-Archive -Path '.\main.zip' -DestinationPath '.' -Force"
+del .\main.zip
 cd text-generation-webui-main
 echo Setting up Python environment...
 python -m venv venv
@@ -157,13 +157,13 @@ if "%selectedLLM%"=="Phi 2" (
 
 echo Downloading model files...
 if defined MODEL_URL (
-    powershell -Command "Invoke-WebRequest -Uri '%MODEL_URL%' -OutFile 'user_data\models\%MODEL_NAME%'"
+    powershell -Command "Invoke-WebRequest -Uri '%MODEL_URL%' -OutFile '.\user_data\models\%MODEL_NAME%'"
 )
 if defined MODEL_URL1 (
-    powershell -Command "Invoke-WebRequest -Uri '%MODEL_URL1%' -OutFile 'user_data\models\%MODEL_NAME1%'"
+    powershell -Command "Invoke-WebRequest -Uri '%MODEL_URL1%' -OutFile '.\user_data\models\%MODEL_NAME1%'"
 )
 if defined MODEL_URL2 (
-    powershell -Command "Invoke-WebRequest -Uri '%MODEL_URL2%' -OutFile 'user_data\models\%MODEL_NAME2%'"
+    powershell -Command "Invoke-WebRequest -Uri '%MODEL_URL2%' -OutFile '.\user_data\models\%MODEL_NAME2%'"
 )
 
 echo Installation complete. You can now run the WebUI using start_windows.bat in the text-generation-webui-main directory.
