@@ -13,14 +13,15 @@ This tool automates the installation and setup of a local Large Language Model (
 - Sets up Python virtual environment and installs dependencies
 
 ## Supported LLM Models
-- **Qwen3 4B Instruct 2507** (Recommended for systems with less than 12 GB combined memory)
+- **Phi 2** (Recommended for systems with less than 8 GB combined memory)
+- **Qwen3 4B Instruct 2507** (Recommended for systems with 8-12 GB combined memory)
 - **GPT Oss 20B** (Recommended for systems with 12–64 GB combined memory)
 - **GPT Oss 120B** (Recommended for systems with more than 64 GB combined memory)
 
 ## System Requirements
 - **Operating System:** Windows 10/11
 - **Python:** Version 3.8 or higher (automatically checked)
-- **RAM:** Minimum 16 GB (more recommended for larger models)
+- **RAM:** Minimum 8 GB (more recommended for larger models)
 - **GPU:** Dedicated Nvidia GPU recommended for optimal performance. Intel/AMD GPUs supported, but may have issues.
 - **Disk Space:** At least 20 GB free (more for larger models)
 - **Internet Connection:** Required for downloading model files and dependencies

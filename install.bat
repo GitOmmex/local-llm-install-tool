@@ -77,14 +77,14 @@ echo =======================================================
 
 REM --- Recommend LLM based on combined memory ---
 set /a combinedGB=combinedMem/1024
-if %combinedGB% lss 12 (
+if %combinedGB% lss 8 (
+    set "llm=Phi 2"
+) else if %combinedGB% lss 12 (
     set "llm=Qwen3 4B Instruct 2507"
+) else if %combinedGB% leq 64 (
+    set "llm=GPT Oss 20B"
 ) else (
-    if %combinedGB% leq 64 (
-        set "llm=GPT Oss 20B"
-    ) else (
-        set "llm=GPT Oss 120B"
-    )
+    set "llm=GPT Oss 120B"
 )
 echo Recommended LLM: %llm%
 
@@ -93,13 +93,15 @@ set "selectedLLM=%llm%"
 set /p userChoice=Do you want to use the recommended LLM (%llm%)? (Y/N): 
 if /i "%userChoice%"=="N" (
     echo Choose your LLM option:
-    echo 1. Qwen3 4B Instruct 2507
-    echo 2. GPT Oss 20B
-    echo 3. GPT Oss 120B
-    set /p llmChoice=Enter 1, 2, or 3: 
-    if "%llmChoice%"=="1" set "selectedLLM=Qwen3 4B Instruct 2507"
-    if "%llmChoice%"=="2" set "selectedLLM=GPT Oss 20B"
-    if "%llmChoice%"=="3" set "selectedLLM=GPT Oss 120B"
+    echo 1. Phi 2
+    echo 2. Qwen3 4B Instruct 2507
+    echo 3. GPT Oss 20B
+    echo 4. GPT Oss 120B
+    set /p llmChoice=Enter 1, 2, 3, or 4: 
+    if "%llmChoice%"=="1" set "selectedLLM=Phi 2"
+    if "%llmChoice%"=="2" set "selectedLLM=Qwen3 4B Instruct 2507"
+    if "%llmChoice%"=="3" set "selectedLLM=GPT Oss 20B"
+    if "%llmChoice%"=="4" set "selectedLLM=GPT Oss 120B"
 )
 echo You selected: %selectedLLM%
 
@@ -134,7 +136,10 @@ pip install --upgrade pip
 pip install -r requirements/portable/requirements.txt --upgrade
 
 echo Downloading selected LLM: %selectedLLM%
-if "%selectedLLM%"=="Qwen3 4B Instruct 2507" (
+if "%selectedLLM%"=="Phi 2" (
+    set "MODEL_URL=https://huggingface.co/TheBloke/phi-2-GGUF/resolve/main/phi-2.Q5_K_M.gguf?download=true"
+    set "MODEL_NAME=phi-2.Q5_K_M.gguf"
+) else if "%selectedLLM%"=="Qwen3 4B Instruct 2507" (
     set "MODEL_URL=https://huggingface.co/unsloth/Qwen3-4B-Instruct-2507-GGUF/resolve/main/Qwen3-4B-Instruct-2507-UD-Q8_K_XL.gguf?download=true"
     set "MODEL_NAME=Qwen3-4B-Instruct-2507-UD-Q8_K_XL.gguf"
 ) else if "%selectedLLM%"=="GPT Oss 20B" (
