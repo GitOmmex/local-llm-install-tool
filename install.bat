@@ -113,7 +113,7 @@ if errorlevel 1 (
     echo Python is installed.
 )
 
-prompt Continue with installation? (Y/N): 
+echo Continue with installation? (Y/N): 
 set /p contChoice=
 if /i "%contChoice%" neq "Y" (
     echo Installation aborted.
