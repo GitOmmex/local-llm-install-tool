@@ -88,6 +88,21 @@ if %combinedGB% lss 12 (
 )
 echo Recommended LLM: %llm%
 
+REM --- Prompt user to accept recommendation or choose LLM ---
+set "selectedLLM=%llm%"
+set /p userChoice=Do you want to use the recommended LLM (%llm%)? (Y/N): 
+if /i "%userChoice%"=="N" (
+    echo Choose your LLM option:
+    echo 1. Qwen3 4B Instruct 2507
+    echo 2. GPT Oss 20B
+    echo 3. GPT Oss 120B
+    set /p llmChoice=Enter 1, 2, or 3: 
+    if "%llmChoice%"=="1" set "selectedLLM=Qwen3 4B Instruct 2507"
+    if "%llmChoice%"=="2" set "selectedLLM=GPT Oss 20B"
+    if "%llmChoice%"=="3" set "selectedLLM=GPT Oss 120B"
+)
+echo You selected: %selectedLLM%
+
 echo Checking for Python installation...
 
 where python >nul 2>&1
@@ -98,10 +113,18 @@ if errorlevel 1 (
     echo Python is installed.
 )
 
+prompt Continue with installation? (Y/N): 
+set /p contChoice=
+if /i "%contChoice%" neq "Y" (
+    echo Installation aborted.
+    goto end
+)
+
 set "WEBUI_URL=https://github.com/oobabooga/text-generation-webui/archive/refs/heads/main.zip"
 echo Downloading Text Generation WebUI...
 powershell -Command "Invoke-WebRequest -Uri '%WEBUI_URL%' -OutFile 'main.zip'"
 echo Extracting WebUI...
 powershell -Command "Expand-Archive -Path 'main.zip' -DestinationPath '.' -Force"
 del main.zip
+cd text-generation-webui-main
 pause
