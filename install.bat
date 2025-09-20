@@ -87,4 +87,14 @@ if %combinedGB% lss 12 (
     )
 )
 echo Recommended LLM: %llm%
+
+echo Checking for Python installation...
+
+where python >nul 2>&1
+if errorlevel 1 (
+    echo Python is not installed. Please install Python from https://www.python.org/downloads/ and ensure it is added to your PATH.
+    goto end
+) else (
+    echo Python is installed.
+)
 pause
